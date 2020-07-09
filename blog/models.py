@@ -1,5 +1,5 @@
 from django.db import models
-from django.utils.timezone import now as dt_now
+from django.urls import reverse
 
 
 class Blogger(models.Model):
@@ -11,11 +11,15 @@ class Blogger(models.Model):
 
     def get_subscribers_count(self):
         return self.subscribers.all().count()
+
+    def get_absolute_url(self):
+        return reverse('blogger_detail', args=[str(self.pk)])
+
     get_subscribers_count.short_description = "Subscribers"
 
 
 class Comment(models.Model):
-    author = models.ForeignKey(Blogger, on_delete=models.CASCADE)
+    author = models.OneToOneField(Blogger, on_delete=models.CASCADE)
     rating = models.IntegerField(default=0)
     text = models.TextField()
 
@@ -29,7 +33,7 @@ class Comment(models.Model):
 class Post(models.Model):
     title = models.CharField(max_length=40)
     text = models.TextField()
-    publish_datetime = models.DateTimeField(default=dt_now())
+    publish_datetime = models.DateTimeField(auto_now=True)
     rating = models.IntegerField(default=0)
     author = models.ForeignKey(Blogger, on_delete=models.CASCADE)
     comments = models.ForeignKey(Comment, on_delete=models.CASCADE, null=True)
@@ -37,5 +41,9 @@ class Post(models.Model):
     def __str__(self):
         return self.title
 
+    def get_absolute_url(self):
+        return reverse('post_detail', args=[str(self.pk)])
+
     class Meta:
-        ordering = ["rating", "-publish_datetime"]
+        ordering = ["-publish_datetime"]
+

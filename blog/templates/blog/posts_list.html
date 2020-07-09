@@ -1,0 +1,18 @@
+{% extends "blog/base.html" %}
+
+{% block content %}
+<h1 style="margin-top: 30px;">Posts:</h1>
+{% for post in posts %}
+<li><p><a href="{{ post.get_absolute_url }}">{{ post.title }}</a> ({{ post.publish_datetime.date }}) -
+    <a href="{{ post.author.get_absolute_url }}">{{ post.author }}</a></li></p>
+{% endfor %}
+
+{% if page_obj.has_previous %}
+<a href="{{ request.path }}?page={{ page_obj.previous_page_number }}"> previous</a>
+{% endif %}
+Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+{% if page_obj.has_next %}
+<a href="{{ request.path }}?page={{ page_obj.next_page_number }}"> next </a>
+{% endif %}
+
+{% endblock %}

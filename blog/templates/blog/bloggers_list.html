@@ -1,10 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends "blog/base.html"%}
 
-</body>
-</html>
+{% block content %}
+<h1 style="margin-top:30px;">  Bloggers: </h1>
+{% for blogger in bloggers %}
+<a href="{{ blogger.get_absolute_url }}">{{ blogger.username }}</a>
+{% endfor %}
+{% endblock %}
