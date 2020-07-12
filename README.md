@@ -8,5 +8,5 @@ This project is created for practice and show future employer examples of my cod
 
 ### Contact
 * krasovsky.igor21@gmail.com - ***my email***
-* @lightning_orionis - ***telegram***
+* [***telegram***](t.me/lightning_orionis)
 * linkedin.com/in/igor-krasovsky-583b941b1/ - ***linkedin***
