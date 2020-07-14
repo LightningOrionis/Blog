@@ -4,7 +4,7 @@
 <h1 style="margin-top: 30px;">Posts:</h1>
 {% for post in posts %}
 <li><p><a href="{{ post.get_absolute_url }}">{{ post.title }}</a> ({{ post.publish_datetime.date }}) -
-    <a href="{{ post.author.get_absolute_url }}">{{ post.author }}</a></li></p>
+    <a href="{{ post.author.get_absolute_url }}">{{ post.author }}</a></li>
 {% endfor %}
 
 {% if page_obj.has_previous %}

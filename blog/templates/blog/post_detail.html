@@ -12,10 +12,13 @@
 <p style="padding-top: 100px;"> <b> Comments: </b> </p>
 
 {% for comment in post.comments %}
-<h4> {{ comment.author.username }} </h4>
 <p>
     {{ comment.text }}
 </p>
 {% endfor %}
-
+<form style="padding-top: 20px;" method="post">
+    {% csrf_token %}
+    <p style="float: left;"> Add your comment:{{ comment_form.as_p }}</p>
+    <input type="submit" style="margin-left: 280px" value="Add" />
+</form>
 {% endblock %}

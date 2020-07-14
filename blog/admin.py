@@ -4,7 +4,7 @@ from .models import Post, Blogger, Comment
 
 @admin.register(Post)
 class PostAdmin(admin.ModelAdmin):
-    exclude = ('rating', 'comments')
+    exclude = ('rating',)
     list_display = ('title', 'rating', 'author')
     list_filter = ('author', )
 
@@ -16,5 +16,5 @@ class BloggerAdmin(admin.ModelAdmin):
 
 @admin.register(Comment)
 class CommentAdmin(admin.ModelAdmin):
-    list_display = ('author', 'rating')
+    list_display = ('rating',)
     exclude = ('rating', )
