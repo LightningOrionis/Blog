@@ -1,9 +1,9 @@
 from django.db import models
+from django.contrib.auth.models import AbstractUser
 from django.urls import reverse
 
 
-class Blogger(models.Model):
-    username = models.CharField(max_length=12)
+class Blogger(AbstractUser):
     subscribers = models.ManyToManyField("self", blank=True)
 
     def __str__(self):
@@ -18,22 +18,12 @@ class Blogger(models.Model):
     get_subscribers_count.short_description = "Subscribers"
 
 
-class Comment(models.Model):
-    #author = models.OneToOneField(Blogger, on_delete=models.CASCADE, blank=True)
-    rating = models.IntegerField(default=0)
-    text = models.TextField()
-
-    def __str__(self):
-        return "{0} comment".format(self.pk)
-
-
 class Post(models.Model):
     title = models.CharField(max_length=40)
     text = models.TextField()
     publish_datetime = models.DateTimeField()
     rating = models.IntegerField(default=0)
     author = models.ForeignKey(Blogger, on_delete=models.CASCADE)
-    comments = models.ForeignKey(Comment, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
         return self.title
@@ -43,4 +33,18 @@ class Post(models.Model):
 
     class Meta:
         ordering = ["-publish_datetime"]
+
+
+class Comment(models.Model):
+    author = models.ForeignKey(Blogger, on_delete=models.CASCADE, blank=True)
+    rating = models.IntegerField(default=0)
+    text = models.TextField()
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    publish_datetime = models.DateTimeField()
+
+    def __str__(self):
+        return "{0} comment".format(self.pk)
+
+    class Meta:
+        ordering = ['publish_datetime']
 

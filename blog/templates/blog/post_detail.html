@@ -9,10 +9,12 @@
     {{ post.text }}
 </p>
 
-<p style="padding-top: 100px;"> <b> Comments: </b> </p>
-
-{% for comment in post.comments %}
-<p>
+<p style="padding-top: 100px; margin-bottom: -20px;"> <b> Comments: </b> </p>
+{% for comment in comments %}
+<p style="padding-top: 20px; padding-bottom:-5px; ">
+    <b>
+        <a href="{{comment.author.get_absolute_url}}">{{ comment.author }}: </a>
+    </b>
     {{ comment.text }}
 </p>
 {% endfor %}

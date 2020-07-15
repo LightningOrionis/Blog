@@ -1,6 +1,7 @@
-from django.http import HttpResponseNotFound
+from django.http import HttpResponseForbidden
 from django.shortcuts import render, get_object_or_404
 from django.views import generic
+from django.contrib.auth.models import AnonymousUser
 from .models import *
 from .forms import *
 
@@ -10,15 +11,17 @@ def index(request):
 
 
 def post_detail_view(request, pk):
+    post = get_object_or_404(Post, pk=pk)
     if request.method == 'POST':
         comment_form = CommentForm(request.POST)
+        if request.user is AnonymousUser:
+            return HttpResponseForbidden()
         if comment_form.is_valid():
-            post = Post.objects.filter(pk=pk)
-            post.comments.insert(Comment.objects.create(text=comment_form.cleaned_data['text']))
+            Comment.objects.create(text=comment_form.cleaned_data['text'], post=post, author=request.user, publish_datetime=datetime.now())
     else:
-        post = get_object_or_404(Post, pk=pk)
         comment_form = CommentForm()
-    return render(request, 'blog/post_detail.html', context={'post': post, 'comment_form': comment_form})
+    comments = Comment.objects.filter(post=post).order_by('-publish_datetime')
+    return render(request, 'blog/post_detail.html', context={'post': post, 'comments': comments,'comment_form': comment_form})
 
 
 def blogger_detail_view(request, pk):

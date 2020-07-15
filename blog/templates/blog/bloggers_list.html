@@ -3,6 +3,6 @@
 {% block content %}
 <h1 style="margin-top:30px;">  Bloggers: </h1>
 {% for blogger in bloggers %}
-<a href="{{ blogger.get_absolute_url }}">{{ blogger.username }}</a>
+<li><a href="{{ blogger.get_absolute_url }}">{{ blogger.username }}</a></li>
 {% endfor %}
 {% endblock %}

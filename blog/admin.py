@@ -16,5 +16,5 @@ class BloggerAdmin(admin.ModelAdmin):
 
 @admin.register(Comment)
 class CommentAdmin(admin.ModelAdmin):
-    list_display = ('rating',)
+    list_display = ('author', 'rating',)
     exclude = ('rating', )
