@@ -3,6 +3,9 @@
 ### Specification
 https://developer.mozilla.org/ru/docs/Learn/Server-side/Django/django_assessment_blog
 
+### Current Status: 
+In Development
+
 ### About Project
 This project is created for practice and show future employer examples of my code.
 
