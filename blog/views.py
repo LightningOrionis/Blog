@@ -1,7 +1,7 @@
+from django.core.exceptions import PermissionDenied
 from django.http import HttpResponseForbidden
 from django.shortcuts import render, get_object_or_404
 from django.views import generic
-from django.contrib.auth.models import AnonymousUser
 from .models import *
 from .forms import *
 
@@ -14,14 +14,17 @@ def post_detail_view(request, pk):
     post = get_object_or_404(Post, pk=pk)
     if request.method == 'POST':
         comment_form = CommentForm(request.POST)
-        if request.user is AnonymousUser:
-            return HttpResponseForbidden()
+        if not request.user.is_authenticated:
+            raise PermissionDenied({"message": "You don't have permission to access",})
         if comment_form.is_valid():
-            Comment.objects.create(text=comment_form.cleaned_data['text'], post=post, author=request.user, publish_datetime=datetime.now())
+            author = Blogger.objects.get(author=request.user)
+            Comment.objects.create(text=comment_form.cleaned_data['text'], post=post, author=author,
+                                   publish_datetime=datetime.now())
     else:
         comment_form = CommentForm()
     comments = Comment.objects.filter(post=post).order_by('-publish_datetime')
-    return render(request, 'blog/post_detail.html', context={'post': post, 'comments': comments,'comment_form': comment_form})
+    context = {'post': post, 'comments': comments, 'comment_form': comment_form}
+    return render(request, 'blog/post_detail.html', context=context)
 
 
 def blogger_detail_view(request, pk):

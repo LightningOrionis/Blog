@@ -1,13 +1,14 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser
 from django.urls import reverse
+from account.models import User
 
 
-class Blogger(AbstractUser):
+class Blogger(models.Model):
     subscribers = models.ManyToManyField("self", blank=True)
+    author = models.OneToOneField(User, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.username
+        return self.author.username
 
     def get_subscribers_count(self):
         return self.subscribers.all().count()
@@ -47,4 +48,3 @@ class Comment(models.Model):
 
     class Meta:
         ordering = ['publish_datetime']
-

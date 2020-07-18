@@ -11,7 +11,7 @@ class PostAdmin(admin.ModelAdmin):
 
 @admin.register(Blogger)
 class BloggerAdmin(admin.ModelAdmin):
-    list_display = ('username', 'get_subscribers_count')
+    list_display = ('author', 'get_subscribers_count')
 
 
 @admin.register(Comment)
